@@ -18,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
         initMap();
-        printMap();
+        printMap(map);
 
         while (true){
             humanGame();
@@ -36,6 +36,8 @@ public class Main {
 
     private static void initMap(){
         map = new char[SIZE][SIZE];
+        pointMap = new  int[SIZE][SIZE];
+
         for (int i=0; i<SIZE; i++)
             for (int j=0; j<SIZE; j++) {
                 map[i][j] = DOT_EMPTY;
@@ -44,7 +46,7 @@ public class Main {
         maxPoint = 1;
     }
 
-    private static void printMap(){
+    private static void printMap(char[][] arr){
         for (int i=0; i<=SIZE; i++)
             if (i!=0)
                 System.out.print(i + " | ");
@@ -56,7 +58,25 @@ public class Main {
         for (int i=0; i<SIZE; i++){
             System.out.print((i+1)+" | ");
             for (int j=0; j<SIZE; j++) {
-                System.out.print(map[i][j] + " | ");
+                System.out.print(arr[i][j] + " | ");
+            }
+            System.out.println("\n---------------");
+        }
+    }
+
+    private static void printMap(int[][] arr){
+        for (int i=0; i<=SIZE; i++)
+            if (i!=0)
+                System.out.print(i + " | ");
+            else
+                System.out.print("  | ");
+
+        System.out.println("\n---------------");
+
+        for (int i=0; i<SIZE; i++){
+            System.out.print((i+1)+" | ");
+            for (int j=0; j<SIZE; j++) {
+                System.out.print(arr[i][j] + " | ");
             }
             System.out.println("\n---------------");
         }
@@ -90,7 +110,7 @@ public class Main {
     private static boolean TheGameIsEnd(char humanChar){
         boolean result = false;
 
-        printMap();
+        printMap(map);
 
         if (checkWin(humanChar)){
             System.out.println("Победили " + humanChar);
@@ -142,12 +162,8 @@ public class Main {
                 x = random.nextInt(SIZE);
                 y = random.nextInt(SIZE);
 
-                if (SMART_MODE) {
-                    if (map[y][x] <= maxPoint)
-                        compGame();
-                }
 
-            } while (!isCellValid(x, y));
+            } while (!isCellValid(x, y) && (pointMap[y][x] <= maxPoint));
 
         System.out.println("Компьютер выбрал ячейку "+(y+1)+" "+(x+1));
         map[y][x] = DOT_O;
@@ -155,17 +171,40 @@ public class Main {
     }
 
     private static void recalculateMap(){
+        int x = 0;
         for (int i=0; i<SIZE; i++){
             for (int y=0; y<SIZE; y++){
-                switch (map[i][y]){
-                    case DOT_EMPTY :
-                        break;
-                    case DOT_O :
+//                if (pointMap[i][y] > maxPoint)
+//                    maxPoint = pointMap[i][y];
+                if (map[i][y]==DOT_O || map[i][y]==DOT_EMPTY) {
+                    pointMap[i][y]++;
+                    if ((i-1)>=0)
+                        pointMap[i-1][y]++;
 
-                        break;
-                    case DOT_X :
-                        break;
+                    if ((i+1)<SIZE)
+                        pointMap[i+1][y]++;
+
+                    if ((y-1)>=0)
+                        pointMap[i][y-1]++;
+
+                    if ((y+1)<SIZE)
+                        pointMap[i][y+1]++;
                 }
+                else {
+                    if ((i-1)>=0)
+                        pointMap[i-1][y]--;
+
+                    if ((i+1)<SIZE)
+                        pointMap[i+1][y]--;
+
+                    if ((y-1)>=0)
+                        pointMap[i][y-1]--;
+
+                    if ((y+1)<SIZE)
+                        pointMap[i][y+1]--;
+                }
+                if (pointMap[i][y] > maxPoint)
+                    maxPoint = pointMap[i][y];
             }
         }
     }
