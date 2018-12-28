@@ -63,7 +63,7 @@ public class Main {
             System.out.println("\n---------------");
         }
     }
-
+// тестово выводил оценночный массив
     private static void printMap(int[][] arr){
         for (int i=0; i<=SIZE; i++)
             if (i!=0)
