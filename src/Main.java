@@ -3,15 +3,15 @@ import java.util.Scanner;
 
 public class Main {
     private static char[][] map;
-//    private static int[][] pointMap;
-//    private static int maxPoint = 0;
+    private static int[][] pointMap;
+    private static int maxPoint = 0;
     private static int SIZE = 3;
 
     private  static final char DOT_EMPTY = '*';
     private  static final char DOT_X = 'X';
     private  static final char DOT_O = 'O';
 
-//    private static final boolean SMART_MODE = true;
+    private static final boolean SMART_MODE = true;
 
     private static Scanner scanner = new Scanner(System.in);
     private static Random random = new Random();
@@ -39,9 +39,9 @@ public class Main {
         for (int i=0; i<SIZE; i++)
             for (int j=0; j<SIZE; j++) {
                 map[i][j] = DOT_EMPTY;
-//                pointMap[i][j] = 1;
+                pointMap[i][j] = 1;
             }
-//        maxPoint = 1;
+        maxPoint = 1;
     }
 
     private static void printMap(){
@@ -72,7 +72,7 @@ public class Main {
         } while (!isCellValid(x, y));
 
         map[y][x] = DOT_X;
-//        recalculateMap();
+        recalculateMap();
     }
 
     private static boolean isCellValid(int x, int y){
@@ -142,31 +142,31 @@ public class Main {
                 x = random.nextInt(SIZE);
                 y = random.nextInt(SIZE);
 
-//                if (SMART_MODE) {
-//                    if (map[y][x] <= maxPoint)
-//                        compGame();
-//                }
+                if (SMART_MODE) {
+                    if (map[y][x] <= maxPoint)
+                        compGame();
+                }
 
             } while (!isCellValid(x, y));
 
         System.out.println("Компьютер выбрал ячейку "+(y+1)+" "+(x+1));
         map[y][x] = DOT_O;
-//        recalculateMap();
+        recalculateMap();
     }
 
-//    private static void recalculateMap(){
-//        for (int i=0; i<SIZE; i++){
-//            for (int y=0; y<SIZE; y++){
-//                switch (map[i][y]){
-//                    case DOT_EMPTY :
-//                        break;
-//                    case DOT_O :
-//
-//                        break;
-//                    case DOT_X :
-//                        break;
-//                }
-//            }
-//        }
-//    }
+    private static void recalculateMap(){
+        for (int i=0; i<SIZE; i++){
+            for (int y=0; y<SIZE; y++){
+                switch (map[i][y]){
+                    case DOT_EMPTY :
+                        break;
+                    case DOT_O :
+
+                        break;
+                    case DOT_X :
+                        break;
+                }
+            }
+        }
+    }
 }
